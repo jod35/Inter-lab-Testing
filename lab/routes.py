@@ -62,6 +62,8 @@ def promote_user(public_id):
    db.session.commit()
    return jsonify({"message":"User Is Accredited!"})
 
-@app.route('/user/<user_id>',methods=['DELETE'])
-def delete_user():
-    pass
+@app.route('/user/<public_id>',methods=['DELETE'])
+def delete_user(public_id):
+   user=User.query.filter_by(public_id=public_id).first()
+   db.session.delete(user)
+   return jsonify({"message":"User Has Been Deleted"})
