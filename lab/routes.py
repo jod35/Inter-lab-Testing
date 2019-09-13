@@ -74,12 +74,12 @@ def add_sample():
    data=request.get_json()
    new_sample=Sample(
          patient_name=data['patient_name'],
-         Sample_type=data['sample_type'],
+         Sample_type=data['Sample_type'],
          med_record_no=data['med_record_no'],
          patient_location=data['patient_location'],
-         ordering_lab=data['ordering_lab']
+         ordering_lab=data['ordering_lab'],
+         accepted= False
    )
-
    db.session.add(new_sample)
    db.session.commit()
    return jsonify({"message":"New sample added!"})
@@ -99,4 +99,14 @@ def get_all_samples():
       output.append(sample_data)
    return jsonify({"samples":output})
 
-
+@app.route('/sample/<int:id>', methods=['GET'])
+def get_one_samples(id):
+    sample=Sample.query.filter_by(id=id)
+    sample_data={}
+    sample_data['patient_name']=sample.patient_name
+    sample_data['Sample_type']=sample.Sample_type
+    sample_data['med_record_no']=sample.med_record_no
+    sample_data['patient_location']=sample.patient_location
+    sample_data['ordering_lab']=sample.ordering_lab
+      
+    return jsonify({"users":sample_data}) 
