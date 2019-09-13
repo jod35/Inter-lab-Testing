@@ -25,7 +25,9 @@ class Sample(db.Model):
     patient_location=db.Column(db.Text(),nullable=False)
     collection_time=db.Column(db.DateTime(),default=datetime.utcnow)
     ordering_lab=db.Column(db.Text(),nullable=False)
+    accepted=db.Column(db.Boolean())
     lab_id=db.Column(db.Integer(),db.ForeignKey('user.id'))
+
 
     def __repr__(self):
         return 'sample of %s {}  at %d'.format(self.patient_name,self.collection_time)
