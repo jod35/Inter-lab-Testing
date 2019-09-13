@@ -1,0 +1,6 @@
+class DevConfig:
+    SQLALCHEMY_DATABASE_URI='mysql+pymysql://jon:nathanoj35@localhost/lab'
+    SQLALCHEMY_TRACK_MODIFICATIONS=False
+    DEBUG=True
+    SECRET_KEY='ASHADIOHASDIHQWIH2YH89423U892023@#$$#@'
+    SQLALCHEMY_ECHO=True
