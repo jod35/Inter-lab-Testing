@@ -95,18 +95,38 @@ def get_all_samples():
       sample_data['med_record_no']=sample.med_record_no
       sample_data['patient_location']=sample.patient_location
       sample_data['ordering_lab']=sample.ordering_lab
+      sample_data['accepted']=sample.accepted
 
       output.append(sample_data)
    return jsonify({"samples":output})
 
 @app.route('/sample/<int:id>', methods=['GET'])
 def get_one_samples(id):
-    sample=Sample.query.filter_by(id=id)
+    sample=Sample.query.filter_by(id=id).first()
+    if not sample:
+         return jsonify({"message":"No sample found"})
     sample_data={}
     sample_data['patient_name']=sample.patient_name
     sample_data['Sample_type']=sample.Sample_type
     sample_data['med_record_no']=sample.med_record_no
     sample_data['patient_location']=sample.patient_location
     sample_data['ordering_lab']=sample.ordering_lab
+    sample_data['accepted']=sample.accepted
       
     return jsonify({"users":sample_data}) 
+
+@app.route('/sample/delete/<int:id>',methods=['DELETE'])
+def DeleteSample(id):
+   sample=Sample.query.filter_by(id=id).first()
+   if not sample:
+      return jsonify({"message" : "Sample not found"})
+   db.session.delete(sample)
+   db.session.commit()
+   return jsonify({"message" :"Sample deleted"})
+
+@app.route('/sample/<int:id>',methods=['PUT'])
+def request_accept(id):
+   sample=Sample.query.filter_by(id=id).first()
+   sample.accepted=True
+   db.session.commit()
+   return jsonify({"message":"Request for testing sample Accepted"})
